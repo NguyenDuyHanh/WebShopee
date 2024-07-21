@@ -1,3 +1,7 @@
+.app {
+    overflow: hidden;
+}
+
 .header {
     height: 120px;
     background-image: linear-gradient(0, #fe6433, #f53e2d);
@@ -509,7 +513,29 @@
     height: var(--navbar-with-search-height);
     display: flex;
     align-items: center;
-    padding: 0 7px;
+}
+
+.header__mobile-search {
+    padding: 0 12px;
+}
+
+/*  */
+
+.header__mobile-navi {
+    margin-right: 24px;
+    display: none;
+    z-index: 14;
+}
+
+.header__mobile-navi-icon
+{
+    font-size: 2.6rem;
+    color: var(--white-color);
+}
+
+.header__mobile-search-icon {
+    font-size: 2.6rem;
+    color: var(--white-color);
 }
 
 .header__logo {
@@ -519,11 +545,76 @@
 .header__logo-link {
     color: transparent ;
     text-decoration: none;
+    display: block;
+    line-height: 0;
 }
 
 .header__logo-img {
     width: 150px; 
 }
+
+/* nav overlay */
+.nav__overlay-mobile {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    animation: fadeIn linear 0.2s;
+    z-index: 2;
+    display: none;
+}
+
+.header__navi-checkbox:checked ~ .nav__overlay-mobile {
+    display: block;
+}
+
+/* nav mobile */
+.nav__mobile-close {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+    margin-right: 4px;
+    font-size: 2rem;
+
+}
+.nav__mobile {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 50%;
+    max-width: 50%;
+    background-color: var(--white-color);
+    opacity: 0;
+    transition: transform linear 0.2s, opacity linear 0.2s;
+    z-index: 3;
+    display: none ;
+}
+
+.header__navi-checkbox:checked ~ .nav__mobile  {
+    display: block;
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.nav__mobile-list {
+    padding-left: 0;
+    margin-top: 0;
+    list-style: none;
+}
+
+.nav__mobile-link {
+    display: block;
+    text-decoration: none;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text-color);
+    padding: 8px 12px;
+}
+
+/* end nav mobile */
 
 .header__search {
     flex: 1;
@@ -543,6 +634,8 @@
     position: relative;
     display: inline-block;
     padding: 0 12px;
+    /* trên mobile tablet khi nhấn vào không bị highlight */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .header__cart-list {
@@ -570,7 +663,7 @@
 .header__cart-list-item {
     padding-left: 0;
     list-style-type: none;
-    height: 50vh;
+    max-height: 50vh;
     /* khi con vượt quá giới hạn chiều dài thì sẽ sinh ra thanh cuộn */
     overflow-y: auto;
 }
@@ -711,13 +804,15 @@
     color: var(--primary-color);
     border: 2px solid #EE4D2D;
     top: -12px;
-    right: -4px;
+    right: 4px;
 }
 
 .header__cart-icon {
     color: var(--white-color);
     font-size: 2.4rem;
     cursor: pointer;
+    -webkit-tag-highlight-color: transparent;
+
 }
 
 .header__cart-contai-icon:hover .header__cart-list {
@@ -901,6 +996,60 @@
     display: block;  
 }
 
+/* header sort bar */
+.header__sort-bar {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    left: 0;
+    margin: 0;
+    padding-left: 0;
+    /* display: flex; */
+    height: var(--header-sort-bar-height);
+    background-color: var(--white-color);
+    list-style: none;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 2px solid #e5e5e5;
+    z-index: 9;
+    display: none;
+}
+
+.header__sort-item {
+    flex: 1;
+}
+
+.header__sort-item--active .header__sort-link {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.header__sort-link {
+    position: relative;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    display: block;
+    height: 100%;
+    line-height: var(--header-sort-bar-height);
+    text-align: center;
+}
+
+.header__sort-link::after {
+    position: absolute;
+    content: "";
+    top: 50%;
+    right: 0;
+    height: 60%;
+    border-right: 1px solid #e5e5e5; 
+    transform: translateY(-50%);
+    /* ket hop top: 50%; va transform: translateY(-50%) de can giua cho boder left right*/
+}
+
+.header__sort-item:last-child .header__sort-link::after {
+    display: none;
+}
+
+
 /* app container */
 
 .app__container {
@@ -959,6 +1108,67 @@
     border-color: transparent transparent transparent var(--primary-color);
     transform: translateY(-50%);
 }
+
+/* mobile tablet category */
+.mobile-category {
+
+}
+
+.mobile-category-list {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    /* khi kthc vuot qua the cha se hien thanh cuon */
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* ẩn thanh cuộn */
+.mobile-category-list::-webkit-scrollbar {
+    display: none;
+} 
+
+.mobile-category-item {
+    /* kthc khong bi co lai */
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.mobile-category-item:nth-of-type(3n + 1) .mobile-category-link {
+    background-color: #87AFD8;
+}
+
+.mobile-category-item:nth-of-type(3n + 2) .mobile-category-link {
+    background-color: #76C9BD;
+}
+
+.mobile-category-item:nth-of-type(3n + 3) .mobile-category-link {
+    background-color: #88CF81;
+}
+
+.mobile-category-link {
+    --line-height: 2rem;
+    text-decoration: none;
+    color: var(--white-color);
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: var(--line-height);
+    text-align: center;
+    display: block;
+    width: 110px;
+    padding: 0 5px;
+    height: calc(var(--line-height) * 2);
+    overflow: hidden;
+    border-radius: 4px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    /* khong cho người dung select text */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
 
 /* home sort + filter */
 .home-filter {
@@ -1092,9 +1302,9 @@
     height: 242px; */
 }
 
-.home-product-item-wrapper {
+/* .home-product-item-wrapper {
     margin-bottom: 10px;
-}
+} */
 
 .home-product-item {
     display: block;
@@ -1277,11 +1487,13 @@ i.home-product-item__like-icon-fill {
 .home-product__pagination {
     margin-top: 38px;
     margin-bottom: 32px;
+    padding-left: 0;
 }
 
 /* footer */
 .footer-border {
     border-top: 3px solid var(--primary-color);
+    /* padding: 0 8px; */
 }
 
 
@@ -1322,6 +1534,7 @@ i.home-product-item__like-icon-fill {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* margin-left: 26px; */
 }
 
 .forter__qr-img {
